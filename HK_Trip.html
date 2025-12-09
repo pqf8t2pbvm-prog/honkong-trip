@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HK Luxury Trip 2025</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'lux-black': '#0f0f0f',
+                        'lux-dark': '#1a1a1a',
+                        'lux-card': '#242424',
+                        'lux-gold': '#D4AF37',
+                        'lux-gold-light': '#F3E5AB',
+                        'lux-gold-dark': '#AA8C2C',
+                    },
+                    fontFamily: {
+                        serif: ['Cinzel', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #0f0f0f;
+            color: #e5e5e5;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Gold Gradient Text */
+        .text-gold-gradient {
+            background: linear-gradient(to right, #D4AF37, #F3E5AB, #D4AF37);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position: 200% center;
+            }
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444; 
+            border-radius: 3px;
+        }
+
+        /* Glassmorphism for Bottom Nav */
+        .nav-glass {
+            background: rgba(26, 26, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid #333;
+        }
+
+        .tab-content {
+            display: none;
+            padding-bottom: 100px; /* Space for navbar */
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-gold-border {
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        
+        /* Input Styling */
+        input, textarea, select {
+            background-color: #1a1a1a;
+            border: 1px solid #444;
+            color: #fff;
+            padding: 10px;
+            border-radius: 4px;
+            width: 100%;
+            outline: none;
+        }
+        input:focus, textarea:focus {
+            border-color: #D4AF37;
+        }
+    </style>
+</head>
+<body class="font-sans min-h-screen flex flex-col">
+
+    <header class="p-6 text-center border-b border-gray-800 bg-lux-black sticky top-0 z-40 shadow-lg">
+        <h1 class="text-3xl font-serif font-bold text-gold-gradient tracking-widest">HONG KONG</h1>
+        <p class="text-xs text-gray-400 mt-1 uppercase tracking-[0.2em]">Luxury Trip 2025</p>
+    </header>
+
+    <main class="flex-grow p-4 relative">
+        
+        <div id="plan" class="tab-content active">
+            <h2 class="text-2xl font-serif text-lux-gold mb-6 border-l-4 border-lux-gold pl-3">Itinerary</h2>
+            
+            <div class="bg-lux-card p-4 rounded-lg mb-6 card-gold-border flex justify-between items-center">
+                <div class="text-sm">
+                    <div class="text-gray-400">Outbound</div>
+                    <div class="text-white font-bold">12/11 HX283</div>
+                </div>
+                <i class="fa-solid fa-plane text-lux-gold"></i>
+                <div class="text-sm text-right">
+                    <div class="text-gray-400">Inbound</div>
+                    <div class="text-white font-bold">12/15 HX260</div>
+                </div>
+            </div>
+
+            <div class="flex space-x-2 mb-6 overflow-x-auto pb-2">
+                <button onclick="renderDay(1)" class="day-btn flex-shrink-0 px-4 py-2 rounded bg-lux-dark border border-gray-700 text-gray-300 hover:border-lux-gold focus:bg-lux-gold focus:text-black transition-colors" id="btn-day1">Day 1</button>
+                <button onclick="renderDay(2)" class="day-btn flex-shrink-0 px-4 py-2 rounded bg-lux-dark border border-gray-700 text-gray-300 hover:border-lux-gold focus:bg-lux-gold focus:text-black transition-colors" id="btn-day2">Day 2</button>
+                <button onclick="renderDay(3)" class="day-btn flex-shrink-0 px-4 py-2 rounded bg-lux-dark border border-gray-700 text-gray-300 hover:border-lux-gold focus:bg-lux-gold focus:text-black transition-colors" id="btn-day3">Day 3</button>
+                <button onclick="renderDay(4)" class="day-btn flex-shrink-0 px-4 py-2 rounded bg-lux-dark border border-gray-700 text-gray-300 hover:border-lux-gold focus:bg-lux-gold focus:text-black transition-colors" id="btn-day4">Day 4</button>
+            </div>
+
+            <div id="itinerary-container" class="space-y-4">
+                </div>
+        </div>
+
+        <div id="guide" class="tab-content">
+            <h2 class="text-2xl font-serif text-lux-gold mb-6 border-l-4 border-lux-gold pl-3">Guide & Map</h2>
+            
+            <article class="mb-8">
+                <div class="bg-lux-card rounded-lg overflow-hidden card-gold-border">
+                    <div class="h-32 bg-gray-800 relative">
+                        <div class="absolute inset-0 flex items-center justify-center text-gray-600 bg-gradient-to-t from-black to-transparent">
+                            <i class="fa-solid fa-landmark text-4xl opacity-50"></i>
+                        </div>
+                        <h3 class="absolute bottom-2 left-4 text-xl font-serif text-white z-10">1881 Heritage</h3>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-gray-300 text-sm leading-relaxed mb-4 text-justify">
+                            <span class="text-3xl float-left mr-2 mt-[-5px] font-serif text-lux-gold">前</span>身為水警總區總部，這座維多利亞時代的建築建於1880年代。現在，它是結合奢華購物、餐飲與歷史的古蹟地標。這裡保留了時間球塔（Time Ball Tower），在20世紀初，它每天為維多利亞港的船隻提供報時服務。
+                        </p>
+                        <div class="border-t border-gray-700 pt-3">
+                            <p class="text-xs text-lux-gold uppercase tracking-widest">Hidden Gem</p>
+                            <p class="text-xs text-gray-500 mt-1">留意原本用來囚禁海盜的牢房，現已改建為酒吧。</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="mb-8">
+                <div class="bg-lux-card rounded-lg overflow-hidden card-gold-border">
+                    <div class="p-5">
+                        <h3 class="text-xl font-serif text-white mb-2">香港海洋公園</h3>
+                        <p class="text-gray-400 text-xs mb-3 font-mono">Ocean Park Hong Kong</p>
+                        <p class="text-gray-300 text-sm leading-relaxed mb-4">
+                            不同於迪士尼的夢幻，海洋公園展現的是南港島的自然風光與驚險刺激。搭乘登山纜車是必備行程，能飽覽深水灣與淺水灣的無敵海景。
+                        </p>
+                        <div class="w-full h-48 rounded border border-gray-700 overflow-hidden">
+                            <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.openstreetmap.org/export/embed.html?bbox=114.1685%2C22.2435%2C114.1785%2C22.2505&amp;layer=mapnik&amp;marker=22.2470%2C114.1735"></iframe>
+                        </div>
+                        <div class="text-center mt-2">
+                             <small><a href="https://www.openstreetmap.org/?mlat=22.2470&amp;mlon=114.1735#map=16/22.2470/114.1735" class="text-lux-gold text-xs underline" target="_blank">View Larger Map</a></small>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+
+        <div id="wallet" class="tab-content">
+            <h2 class="text-2xl font-serif text-lux-gold mb-6 border-l-4 border-lux-gold pl-3">Wallet</h2>
+            
+            <div class="bg-lux-card p-5 rounded-lg mb-6 card-gold-border">
+                <div class="flex justify-between items-end mb-2">
+                    <label class="text-xs text-gray-400 uppercase tracking-widest">Quick Calc (HKD)</label>
+                    <div class="text-xs text-lux-gold">Rate: 1 HKD = <input type="number" id="exchange-rate" value="4.1" class="w-12 bg-transparent border-b border-lux-gold text-center p-0 h-auto inline text-lux-gold" onchange="saveRate()"> TWD</div>
+                </div>
+                
+                <div class="relative">
+                    <input type="text" id="calc-input" placeholder="e.g. 50+20*3" class="text-lg font-mono mb-2 pr-12">
+                    <button onclick="calculate()" class="absolute right-2 top-2 text-lux-gold"><i class="fa-solid fa-equals"></i></button>
+                </div>
+                
+                <div class="flex justify-between items-center mt-2 bg-black/30 p-3 rounded">
+                    <div>
+                        <span class="text-gray-500 text-xs block">Total HKD</span>
+                        <span id="calc-result-hkd" class="text-xl font-bold text-white">0.00</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-gray-500 text-xs block">Approx TWD</span>
+                        <span id="calc-result-twd" class="text-xl font-bold text-lux-gold">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-lg font-serif text-white mb-3">Add Expense</h3>
+                <div class="flex gap-2">
+                    <input type="text" id="expense-item" placeholder="Item" class="flex-grow">
+                    <input type="number" id="expense-amount" placeholder="$" class="w-20">
+                    <button onclick="addExpense()" class="bg-lux-gold text-black font-bold px-4 rounded hover:bg-yellow-500 transition"><i class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+
+            <div>
+                <div class="flex justify-between items-center mb-3">
+                    <h3 class="text-lg font-serif text-white">History</h3>
+                    <div class="text-xs text-gray-400">Total: <span id="total-spent-hkd" class="text-white font-bold">0</span> HKD</div>
+                </div>
+                <div id="expense-list" class="space-y-2 pb-4">
+                    </div>
+                <button onclick="clearExpenses()" class="text-xs text-red-400 underline mt-4 text-center w-full">Reset Wallet</button>
+            </div>
+        </div>
+
+        <div id="lists" class="tab-content">
+            <h2 class="text-2xl font-serif text-lux-gold mb-6 border-l-4 border-lux-gold pl-3">Checklists</h2>
+            
+            <div class="bg-lux-card p-5 rounded-lg mb-6 card-gold-border">
+                <h3 class="text-lg font-serif text-white mb-4"><i class="fa-solid fa-suitcase text-lux-gold mr-2"></i>Essentials</h3>
+                <div id="checklist-container" class="space-y-3">
+                    </div>
+            </div>
+
+            <div class="bg-lux-card p-5 rounded-lg mb-6 card-gold-border">
+                <h3 class="text-lg font-serif text-white mb-4"><i class="fa-solid fa-note-sticky text-lux-gold mr-2"></i>Memos</h3>
+                <textarea id="memo-input" rows="4" class="w-full text-sm mb-2" placeholder="Write notes or paste links here..."></textarea>
+                <button onclick="saveMemo()" class="w-full bg-lux-dark border border-lux-gold text-lux-gold py-2 rounded text-sm uppercase tracking-widest hover:bg-lux-gold hover:text-black transition">Save Note</button>
+                
+                <div id="memo-display" class="mt-4 text-sm text-gray-300 whitespace-pre-wrap break-words link-gold"></div>
+            </div>
+        </div>
+
+        <div id="info" class="tab-content">
+            <h2 class="text-2xl font-serif text-lux-gold mb-6 border-l-4 border-lux-gold pl-3">Information</h2>
+
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <a href="https://www.hko.gov.hk/tc/" target="_blank" class="bg-lux-card p-4 rounded-lg card-gold-border text-center hover:bg-gray-800 transition">
+                    <i class="fa-solid fa-cloud-sun-rain text-3xl text-lux-gold mb-2"></i>
+                    <div class="text-sm font-bold text-white">Weather</div>
+                    <div class="text-xs text-gray-400">HK Observatory</div>
+                </a>
+                <a href="tel:999" class="bg-lux-card p-4 rounded-lg card-gold-border text-center hover:bg-gray-800 transition">
+                    <i class="fa-solid fa-truck-medical text-3xl text-red-500 mb-2"></i>
+                    <div class="text-sm font-bold text-white">Emergency</div>
+                    <div class="text-xs text-gray-400">Call 999</div>
+                </a>
+            </div>
+
+            <div class="bg-lux-card p-5 rounded-lg mb-6 card-gold-border">
+                <h3 class="text-lg font-serif text-white mb-3">Accommodation</h3>
+                <p class="text-gray-300 text-sm"><i class="fa-solid fa-house text-lux-gold mr-2"></i>Airbnb</p>
+                <p class="text-gray-400 text-sm ml-6">加連威老道47號3樓</p>
+                <a href="https://www.google.com/maps/search/?api=1&query=加連威老道47號" target="_blank" class="inline-block mt-3 ml-6 text-xs border border-lux-gold text-lux-gold px-3 py-1 rounded">Open Map</a>
+            </div>
+            
+            <div class="bg-lux-card p-5 rounded-lg mb-6 card-gold-border">
+                 <h3 class="text-lg font-serif text-white mb-3">Tips & Taboos</h3>
+                 <ul class="list-disc list-inside text-sm text-gray-300 space-y-2">
+                     <li><span class="text-lux-gold">電壓</span>: 220V，G型插座 (英式三腳)。</li>
+                     <li><span class="text-lux-gold">禁忌</span>: 亂丟垃圾罰款1500港幣。</li>
+                     <li><span class="text-lux-gold">交通</span>: 電扶梯靠右站立，左側通行。</li>
+                     <li><span class="text-lux-gold">違禁品</span>: 2024起禁止攜帶大麻二酚(CBD)產品入境。</li>
+                 </ul>
+            </div>
+        </div>
+
+    </main>
+
+    <nav class="nav-glass fixed bottom-0 w-full z-50 pb-safe">
+        <div class="flex justify-around items-center h-16">
+            <button onclick="switchTab('plan')" class="nav-btn active flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lux-gold transition-colors" data-target="plan">
+                <i class="fa-solid fa-map mb-1 text-lg"></i>
+                <span class="text-[10px] uppercase tracking-wider">Plan</span>
+            </button>
+            <button onclick="switchTab('guide')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lux-gold transition-colors" data-target="guide">
+                <i class="fa-solid fa-book-open mb-1 text-lg"></i>
+                <span class="text-[10px] uppercase tracking-wider">Guide</span>
+            </button>
+            <button onclick="switchTab('wallet')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lux-gold transition-colors" data-target="wallet">
+                <i class="fa-solid fa-wallet mb-1 text-lg"></i>
+                <span class="text-[10px] uppercase tracking-wider">Wallet</span>
+            </button>
+            <button onclick="switchTab('lists')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lux-gold transition-colors" data-target="lists">
+                <i class="fa-solid fa-list-check mb-1 text-lg"></i>
+                <span class="text-[10px] uppercase tracking-wider">Lists</span>
+            </button>
+            <button onclick="switchTab('info')" class="nav-btn flex flex-col items-center justify-center w-full h-full text-gray-500 hover:text-lux-gold transition-colors" data-target="info">
+                <i class="fa-solid fa-circle-info mb-1 text-lg"></i>
+                <span class="text-[10px] uppercase tracking-wider">Info</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // --- DATA ---
+        const tripData = {
+            itinerary: {
+                1: [
+                    { time: "Day 1", title: "抵達香港機場", type: "transport" },
+                    { time: "→", title: "搭機場巴士A21", type: "transport" },
+                    { time: "Check-in", title: "入住 Airbnb", sub: "加連威老道47號", type: "stay" }
+                ],
+                2: [
+                    { time: "Morning", title: "瑞記咖啡", type: "food" },
+                    { time: "Activity", title: "香港海洋公園", type: "spot" },
+                    { time: "Lunch", title: "敏華冰廳", type: "food" },
+                    { time: "Shop", title: "Stussy Hong Kong", type: "shop" },
+                    { time: "Shop", title: "NIKELAB", type: "shop" },
+                    { time: "Snack", title: "Hashtag B", type: "food" },
+                    { time: "Snack", title: "Bakehouse", type: "food" },
+                    { time: "Shop", title: "CACAOLAB", type: "shop" },
+                    { time: "Dinner", title: "棋子燒鵝", type: "food" }
+                ],
+                3: [
+                    { time: "Brunch", title: "澳洲牛奶公司", type: "food" },
+                    { time: "Spot", title: "1881 Heritage", type: "spot" },
+                    { time: "Shop", title: "海港城", type: "shop" },
+                    { time: "Lunch", title: "Shack Shack", type: "food" },
+                    { time: "Art", title: "香港藝術館", type: "spot" },
+                    { time: "Mall", title: "K11 MUSEA", type: "shop" },
+                    { time: "Snack", title: "Owl’s Choux Pastry", type: "food" },
+                    { time: "Mall", title: "朗豪坊", type: "shop" },
+                    { time: "Dinner", title: "劉興記生煎包", sub:"旺角", type: "food" },
+                    { time: "Dessert", title: "佳佳甜品", sub:"佐敦", type: "food" },
+                    { time: "Spot", title: "西九文化區", type: "spot" }
+                ],
+                4: [
+                    { time: "Breakfast", title: "蓮香樓", sub:"尖沙咀", type: "food" },
+                    { time: "Shop", title: "波鞋街", type: "shop" },
+                    { time: "Walk", title: "利東街散步", type: "spot" },
+                    { time: "Coffee", title: "藍瓶咖啡", type: "food" },
+                    { time: "Spot", title: "中環摩天輪", type: "spot" },
+                    { time: "Spot", title: "中環大館", type: "spot" }
+                ]
+            },
+            checklist: [
+                "護照", "esim", "香港簽證", "港幣", "常備藥品"
+            ]
+        };
+
+        // --- INIT ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderDay(1); // Default Day 1
+            loadWallet();
+            loadChecklist();
+            loadMemo();
+            
+            // Set nav active state styling
+            const styleElement = document.createElement('style');
+            styleElement.innerHTML = `
+                .nav-btn.active { color: #D4AF37; }
+                .nav-btn.active i { transform: scale(1.1); transition: transform 0.2s; }
+            `;
+            document.head.appendChild(styleElement);
+        });
+
+        // --- NAVIGATION ---
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            // Show target
+            document.getElementById(tabId).classList.add('active');
+            
+            // Update Nav Icons
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`button[data-target="${tabId}"]`).classList.add('active');
+            
+            window.scrollTo(0,0);
+        }
+
+        // --- PLAN MODULE ---
+        function renderDay(day) {
+            // Update buttons
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.classList.remove('bg-lux-gold', 'text-black', 'border-lux-gold');
+                btn.classList.add('bg-lux-dark', 'text-gray-300');
+            });
+            const activeBtn = document.getElementById(`btn-day${day}`);
+            activeBtn.classList.remove('bg-lux-dark', 'text-gray-300');
+            activeBtn.classList.add('bg-lux-gold', 'text-black', 'border-lux-gold');
+
+            // Render Content
+            const container = document.getElementById('itinerary-container');
+            container.innerHTML = '';
+            
+            const items = tripData.itinerary[day];
+            items.forEach((item, index) => {
+                let icon = 'fa-location-dot';
+                if(item.type === 'food') icon = 'fa-utensils';
+                if(item.type === 'shop') icon = 'fa-bag-shopping';
+                if(item.type === 'transport') icon = 'fa-bus';
+                if(item.type === 'stay') icon = 'fa-bed';
+
+                const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(item.title + " 香港")}`;
+                
+                const html = `
+                <div class="flex items-start group">
+                    <div class="w-16 flex-shrink-0 text-right pr-4 pt-4">
+                        <span class="text-xs font-serif text-lux-gold block">${item.time}</span>
+                    </div>
+                    <div class="relative pl-6 pb-6 border-l border-gray-700 flex-grow">
+                        <div class="absolute -left-[9px] top-4 w-4 h-4 rounded-full bg-lux-black border-2 border-lux-gold"></div>
+                        
+                        <div class="bg-lux-card p-4 rounded card-gold-border relative overflow-hidden">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h4 class="font-bold text-white text-lg">${item.title}</h4>
+                                    ${item.sub ? `<p class="text-xs text-gray-400">${item.sub}</p>` : ''}
+                                </div>
+                                <i class="fa-solid ${icon} text-gray-600 text-xl group-hover:text-lux-gold transition-colors"></i>
+                            </div>
+                            
+                            <div class="mt-3 pt-3 border-t border-gray-700/50 flex gap-2">
+                                <a href="${mapLink}" target="_blank" class="text-xs flex items-center gap-1 text-lux-gold hover:text-white transition">
+                                    <i class="fa-solid fa-map-location-dot"></i> Google Maps
+                                </a>
+                                ${item.type === 'food' ? `<a href="https://www.google.com/search?q=${item.title}+食記" target="_blank" class="text-xs flex items-center gap-1 text-gray-400 hover:text-white transition ml-3"><i class="fa-regular fa-eye"></i> Review</a>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `;
+                container.innerHTML += html;
+            });
+        }
+
+        // --- WALLET MODULE ---
+        function calculate() {
+            const input = document.getElementById('calc-input').value;
+            const rate = parseFloat(document.getElementById('exchange-rate').value) || 4.1;
+            
+            try {
+                // Basic validation to allow only numbers and math operators
+                if (!/^[0-9+\-*/().\s]+$/.test(input)) {
+                    alert("Invalid input");
+                    return;
+                }
+                const hkd = eval(input); // Using eval for calculator simplicity in single file app
+                const twd = hkd * rate;
+                
+                document.getElementById('calc-result-hkd').innerText = hkd.toFixed(2);
+                document.getElementById('calc-result-twd').innerText = Math.round(twd);
+            } catch (e) {
+                alert("Calculation Error");
+            }
+        }
+
+        function saveRate() {
+            const rate = document.getElementById('exchange-rate').value;
+            localStorage.setItem('hk_rate', rate);
+        }
+
+        function addExpense() {
+            const item = document.getElementById('expense-item').value;
+            const amount = parseFloat(document.getElementById('expense-amount').value);
+            
+            if(!item || !amount) return;
+            
+            const expenses = JSON.parse(localStorage.getItem('hk_expenses') || '[]');
+            expenses.unshift({ item, amount, date: new Date().toISOString() });
+            localStorage.setItem('hk_expenses', JSON.stringify(expenses));
+            
+            document.getElementById('expense-item').value = '';
+            document.getElementById('expense-amount').value = '';
+            
+            renderExpenses();
+        }
+
+        function renderExpenses() {
+            const expenses = JSON.parse(localStorage.getItem('hk_expenses') || '[]');
+            const container = document.getElementById('expense-list');
+            const rate = parseFloat(document.getElementById('exchange-rate').value) || 4.1;
+            
+            container.innerHTML = '';
+            let total = 0;
+            
+            expenses.forEach((ex, idx) => {
+                total += ex.amount;
+                const div = document.createElement('div');
+                div.className = 'flex justify-between items-center bg-gray-800/50 p-2 rounded border-b border-gray-700';
+                div.innerHTML = `
+                    <span class="text-sm text-gray-300">${ex.item}</span>
+                    <div class="text-right">
+                        <span class="block text-sm text-white font-bold">$${ex.amount}</span>
+                        <span class="block text-[10px] text-gray-500">≈ NT$${Math.round(ex.amount * rate)}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+            
+            document.getElementById('total-spent-hkd').innerText = total.toFixed(1);
+        }
+        
+        function clearExpenses() {
+            if(confirm("Delete all history?")) {
+                localStorage.removeItem('hk_expenses');
+                renderExpenses();
+            }
+        }
+
+        function loadWallet() {
+            const savedRate = localStorage.getItem('hk_rate');
+            if(savedRate) document.getElementById('exchange-rate').value = savedRate;
+            renderExpenses();
+        }
+
+        // --- LISTS MODULE ---
+        function loadChecklist() {
+            const container = document.getElementById('checklist-container');
+            const savedState = JSON.parse(localStorage.getItem('hk_checklist') || '{}');
+            
+            container.innerHTML = '';
+            
+            tripData.checklist.forEach(item => {
+                const isChecked = savedState[item] ? 'checked' : '';
+                const div = document.createElement('div');
+                div.className = 'flex items-center gap-3 p-2 hover:bg-gray-800 rounded cursor-pointer';
+                div.onclick = (e) => toggleCheck(item);
+                div.innerHTML = `
+                    <div class="w-5 h-5 border border-lux-gold rounded flex items-center justify-center ${isChecked ? 'bg-lux-gold' : ''}">
+                        ${isChecked ? '<i class="fa-solid fa-check text-black text-xs"></i>' : ''}
+                    </div>
+                    <span class="text-gray-200 ${isChecked ? 'line-through text-gray-500' : ''}">${item}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function toggleCheck(item) {
+            const savedState = JSON.parse(localStorage.getItem('hk_checklist') || '{}');
+            savedState[item] = !savedState[item];
+            localStorage.setItem('hk_checklist', JSON.stringify(savedState));
+            loadChecklist();
+        }
+
+        function saveMemo() {
+            const text = document.getElementById('memo-input').value;
+            localStorage.setItem('hk_memo', text);
+            loadMemo();
+        }
+
+        function loadMemo() {
+            const text = localStorage.getItem('hk_memo') || '';
+            document.getElementById('memo-input').value = text;
+            
+            // Convert URLs to links for display
+            const display = document.getElementById('memo-display');
+            if(text) {
+                const urlRegex = /(https?:\/\/[^\s]+)/g;
+                const formatted = text.replace(urlRegex, (url) => {
+                    return `<a href="${url}" target="_blank" class="text-lux-gold underline break-all"><i class="fa-solid fa-link"></i> Link</a>`;
+                });
+                display.innerHTML = formatted;
+            } else {
+                display.innerHTML = '';
+            }
+        }
+    </script>
+</body>
+</html>
